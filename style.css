@@ -1,4 +1,20 @@
+.unselected {
+    background-color: gray;
+    color: black;
+
+}
+
+.selected {
+    background-color: blue;
+    color: white;
+}
+
+
+
+
+
 .movie {
     border-color: black;
     border-style: solid;
+    display: none;
 }
