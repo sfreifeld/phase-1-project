@@ -1,31 +1,33 @@
 
+
 // object that holds the questions and answers
 const questionObject = [
     {
-        question: 'What kind of show do you want to watch?',
-        answerComedy: 'Comedy',
-        answerRomance: 'Romance',
-        answerAction: 'Action',
-        answerDrama: 'Drama',
-        answerFamily: 'Family'
+        question: 'Which one of these activities sounds the most fun?',
+        answerComedy: 'Hanging out with friends',
+        answerRomance: 'A long walk on the beach',
+        answerAction: 'Skydiving',
+        answerDrama: 'Reading a book',
+        answerFamily: 'Playing a board game'
     },
     {
-        question: 'What is another type of show that you want to watch?',
-        answerComedy: 'Comedy2',
-        answerRomance: 'Romance2',
-        answerAction: 'Action2',
-        answerDrama: 'Drama2',
-        answerFamily: 'Family2'
+        question: 'Which drink sounds the best right now?',
+        answerComedy: 'Soda',
+        answerRomance: 'Tea',
+        answerAction: 'Energy Drink',
+        answerDrama: 'Water',
+        answerFamily: 'Lemonade'
     },
     {
-        question: 'Another question about your favorite show?',
-        answerComedy: 'Comedy3',
-        answerRomance: 'Romance3',
-        answerAction: 'Action3',
-        answerDrama: 'Drama3',
-        answerFamily: 'Family3'
+        question: 'If you could choose any career, what would you be?',
+        answerComedy: 'Clown',
+        answerRomance: 'Wedding Planner',
+        answerAction: 'Racecar Driver',
+        answerDrama: 'Lawyer',
+        answerFamily: 'Teacher'
     }
 ]
+
 
 // variables that holds the amount of points each genre has
 let comedy = 0
@@ -34,6 +36,12 @@ let action = 0
 let drama = 0
 let family = 0
 
+
+// the genre of movie that will be suggested to the user, based on their input
+let userGenre = ''
+
+//variable that tracks the last selected button for each question, so that a user can only get one point per question
+const lastSelectedGenres = {}
 
 // logic that shows which answer is selected
 const buttons = document.querySelectorAll('.answer-button')
@@ -46,13 +54,61 @@ buttons.forEach(button => {
         }
         button.className = 'selected'
         selectedButton = button
+
+        if (lastSelectedGenres[questionCounter] !== button.id) {
+            // If a different genre was previously selected, decrement its count
+            if (lastSelectedGenres[questionCounter]) {
+                switch (lastSelectedGenres[questionCounter]) {
+                    case 'comedy':
+                        comedy > 0 ? comedy-- : comedy
+                        break
+                    case 'romance':
+                        romance > 0 ? romance-- : romance
+                        break
+                    case 'action':
+                        action > 0 ? action-- : action
+                        break
+                    case 'drama':
+                        drama > 0 ? drama-- : drama
+                        break
+                    case 'family':
+                        family > 0 ? family-- : family
+                        break
+                }
+            }
+    
+            // Update the count for the newly selected genre
+            switch (button.id) {
+                case 'comedy':
+                    comedy++
+                    break
+                case 'romance':
+                    romance++
+                    break
+                case 'action':
+                    action++
+                    break
+                case 'drama':
+                    drama++
+                    break
+                case 'family':
+                    family++
+                    break
+            }
+            console.log("comedy: " + comedy)
+            console.log("romance: " + romance)
+            console.log("action: " + action)
+            console.log("drama: " + drama)
+            console.log("family: " + family)
+            lastSelectedGenres[questionCounter] = button.id;
+            }
     })
 })
 
 
 
 
-// logic that causes forwards button to show the next question and answers
+// logic that causes forwards and backwards button to show the correct question and answers
 const forwards = document.querySelector('#forwards')
 const backwards = document.querySelector('#backwards')
 const question = document.querySelector('#question')
@@ -89,6 +145,13 @@ function questionTraverse(direction) {
     const familyButton = document.querySelector('#family')
     familyButton.textContent = questionObject[questionCounter].answerFamily
 
+    //logic that only shows submit button on the last question
+    forwards.style.display = questionCounter === questionObject.length - 1 ? 'none' : 'block'
+    backwards.style.display = questionCounter === 0 ? 'none' : 'block'
+    submitButton.style.display = questionCounter === questionObject.length - 1 ? 'block' : 'none'
+
+    
+    
 
 
 }
@@ -108,6 +171,65 @@ backwards.addEventListener('click', ()=> {
 })
 
 
+function determineUserGenre() {
+    const genres = [
+        { name: 'Comedy', points: comedy },
+        { name: 'Romance', points: romance },
+        { name: 'Action', points: action },
+        { name: 'Drama', points: drama },
+        { name: 'Family', points: family }
+    ]
+
+    const maxPoints = Math.max(...genres.map(genre => genre.points))
+
+    const topGenres = genres.filter(genre => genre.points === maxPoints)
+
+    if (topGenres.length > 1) {
+        const randomIndex = Math.floor(Math.random() * topGenres.length)
+        userGenre = topGenres[randomIndex].name
+    } else {
+        // If there's no tie, just assign the top genre
+        userGenre = topGenres[0].name
+    }
+
+}
+
+const submitButton = document.querySelector('#submit')
+
+ // Call the function to determine the user's preferred genre and then find shows of that genre
+submitButton.addEventListener('click', () => {
+    determineUserGenre();
+    console.log(userGenre);
+    findShows()
+});
 
 
 
+// 300 pages of tv maze api
+//calls random page of the api that gets all the shows.  This is done as a workaround since we are not able to directly search by genre.  We will call a random page of the api, and iterate over each show until we have shows that match the user's genre.
+// Limit the number of attempts to prevent infinite loops
+function findShows(matchingShows = [], attempts = 0) {
+    if (matchingShows.length >= 10 || attempts > 50) {
+        console.log(matchingShows);
+        console.log("show 1: " + matchingShows[0].name);
+        console.log("show 2: " + matchingShows[1].name);
+        console.log("show 3: " + matchingShows[2].name);
+        return;
+    }
+
+    let randomPage = Math.floor(Math.random() * 300) + 1
+    fetch(`https://api.tvmaze.com/shows?page=${randomPage}`)
+        .then((resp) => resp.json())
+        .then((data) => {
+            const englishShows = data.filter(show => show.language && show.language.includes("English"))
+            const newMatchingShows = englishShows.filter(show => show.genres && show.genres.includes(userGenre))
+
+            // Combine the newly found matching shows with any previously found ones
+            const updatedMatchingShows = matchingShows.concat(newMatchingShows)
+
+            // Recursively call findShows until the condition is met
+            findShows(updatedMatchingShows, attempts + 1);
+        }).catch(error => {
+            console.error("Failed to fetch shows:", error);
+        })
+}
