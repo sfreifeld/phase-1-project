@@ -9,12 +9,17 @@
     color: white;
 }
 
-
-
-
-
 .movie {
     border-color: black;
     border-style: solid;
+    display: none;
+}
+
+
+#submit {
+    display: none;
+}
+
+#backwards {
     display: none;
 }
