@@ -3,12 +3,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
 body {
-  margin: 0;
+  margin: 20px;
   padding: 0;
   background: #3a3f55;
   color: whitesmoke;
   font-family: "Lato", sans-serif;
   line-height: 200%;
+}
+
+button {
+    font-family: "Lato", sans-serif;
+    font-size: 20px;
 }
 
 #title {
@@ -42,11 +47,11 @@ body {
 }
 
 #suggestion-container {
-  display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
   padding: 10px;
   justify-content: center;
+  display: none;
 }
 
 .show {
@@ -99,16 +104,46 @@ body {
 
 .rating-button:hover {
   transform: scale(1.1);
+}
+
+#button-container {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .button-row {
+    display: flex;
+  }
   
 .unselected {
-    background-color: gray;
+    background-color: rgb(197, 196, 196);
     color: black;
+    border-radius: 6px;
+    text-align: center;
+    margin: 10px; 
+    padding: 10px;
+    width: 320px;
 
 }
 
 .selected {
-    background-color: blue;
+    background-color: #da6638;
     color: white;
+    border-radius: 6px;
+    border: none;
+    text-align: center;
+    margin: 10px; 
+    padding: 10px;
+    width: 320px;
+
+}
+
+.answer-button {
+    margin: 10px; 
+    padding: 10px;
+    width: 320px;
 }
 
 .movie {
@@ -120,8 +155,49 @@ body {
 
 #submit {
     display: none;
+    border-radius: 6px;
+    text-align: center;
+    background-color: #619865;
+    border-color: #619865;
+    border-width: 2px;
+    color:white;
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+
+    
+}
+
+
+#submit:active {
+    border: none
+}
+
+
+#forwards {
+    width: 100px;
+    background-color: #da6638;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
 }
 
 #backwards {
-    display: none;
+    width: 100px;
+    background-color: #da6638;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+    display:none;
 }
+
+#button-group {
+    display: flex;
+}
+

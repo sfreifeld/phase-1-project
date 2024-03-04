@@ -2,24 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Hello, world!</title>
+  <title>Cinemate</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="" />
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <script defer src="main.js"></script>
-    <h1>Cinemate</h1>
+    <h1 id="title">Cine<span>mate</span></h1>
     <h3 id="question"> Which one of these activities sounds the most fun?</h3>
-    <button id="comedy" class = "answer-button unselected">Hanging out with friends</button>
-    <button id="romance" class = "answer-button unselected">A long walk on the beach</button>
-    <button id="action" class = "answer-button unselected">Skydiving</button>
-    <button id="drama" class = "answer-button unselected">Reading a book</button>
-    <button id="family" class = "answer-button unselected">Playing a board game</button>
-    <div>
-        <button id="forwards">forward</button>
-        <button id="backwards">backwards</button>
-        <button id="submit">submit</button>
+    <div id="button-container">
+        <div class ="button-row">
+        <button id="comedy" class = "answer-button unselected">Hanging out with friends</button>
+        <button id="romance" class = "answer-button unselected">A long walk on the beach</button>
+        </div>
+        <div class ="button-row">
+        <button id="action" class = "answer-button unselected">Skydiving</button>
+        <button id="drama" class = "answer-button unselected">Reading a book</button>
+        </div>
+        <div class ="button-row">
+        <button id="family" class = "answer-button unselected">Playing a board game</button>
+        </div>
+    </div>
+    <div id="button-group">
+        <button id="backwards"> <i class="fa fa-backward"></i>&nbsp;&nbsp;Back</button>
+        <button id="forwards">Next&nbsp;&nbsp;<i class="fa fa-forward"></i></button>
+        <button id="submit">Submit</button>
     </div>
 
     <div id="suggestion-container">
@@ -27,6 +36,5 @@
       <div class="show" id="show2">show 2</div>
       <div class="show" id="show3">show 3</div>
     </div>
-    <script defer src="main.js"></script>
   </body>
 </html>
