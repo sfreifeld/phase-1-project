@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Hello, world!</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="" />
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello, world!</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <script defer src="main.js"></script>
-    <h1>Cinemate</h1>
-    <h3 id="question"> Which one of these activities sounds the most fun?</h3>
-    <button id="comedy" class = "answer-button unselected">Hanging out with friends</button>
-    <button id="romance" class = "answer-button unselected">A long walk on the beach</button>
-    <button id="action" class = "answer-button unselected">Skydiving</button>
-    <button id="drama" class = "answer-button unselected">Reading a book</button>
-    <button id="family" class = "answer-button unselected">Playing a board game</button>
-    <div>
+    <h1 id="title">Cine<span>mate</span></h1>
+    <div id="questions-container">
+      <h3 id="question">Which one of these activities sounds the most fun?</h3>
+      <button id="comedy" class="answer-button unselected">
+        Hanging out with friends
+      </button>
+      <button id="romance" class="answer-button unselected">
+        A long walk on the beach
+      </button>
+      <button id="action" class="answer-button unselected">Skydiving</button>
+      <button id="drama" class="answer-button unselected">
+        Reading a book
+      </button>
+      <button id="family" class="answer-button unselected">
+        Playing a board game
+      </button>
+      <div>
         <button id="forwards">forward</button>
         <button id="backwards">backwards</button>
         <button id="submit">submit</button>
+      </div>
     </div>
 
-    <div id="suggestion-container">
+    <div id="suggestions-container">
       <div class="show" id="show1">show 1</div>
       <div class="show" id="show2">show 2</div>
       <div class="show" id="show3">show 3</div>

@@ -20,7 +20,8 @@ const suggestions = {
             "name": "Bridgerton",
             "image": "https://resizing.flixster.com/Zdvk-xZ3cN7uIJGvqPcuAijAb1U=/ems.cHJkLWVtcy1hc3NldHMvdHZzZXJpZXMvOWQyNzdiMGEtZmZhYi00YmZjLTkxZDktNDFlMjFhNjZkZmYwLmpwZw==",
             "details": {
-                "genre":"romance"
+                "genre": "romance",
+                "description": "The eight close-knit siblings of the Bridgerton family look for love and happiness in London high society."
             }
         },
         {
@@ -92,12 +93,14 @@ let currentIndex = 0; // Track the current index of the displayed shows
 const numInitialShows = 3; // Number of shows to display initially
 
 function displayInitialShows() {
-    const showContainer = document.getElementById('suggestion-container');
+    const quizContainer = document.getElementById('questions-container');
+    quizContainer.innerHTML = '';
+    const showContainer = document.getElementById('suggestions-container');
     showContainer.innerHTML = '';
 
     const heading= document.createElement('h2');
-    heading.textContent = "Here are your suggestions";
-    showContainer.append(heading);
+    heading.textContent = "Here are your suggestions:";
+    quizContainer.append(heading);
 
     for (let i = 0; i < numInitialShows; i++) {
         displayNextShow(showContainer);
@@ -142,11 +145,37 @@ function displayNextShow(showContainer) {
 
     showElement.appendChild(ratingContainer); // Insert rating container after show image
 
+    // Add event listener to show container for hover
+    img.addEventListener('mouseover', () => {
+        const detailsContainer = document.createElement('div');
+        detailsContainer.className = 'show-details';
+
+        const genre = document.createElement('p');
+        genre.textContent = `Genre: ${show.details.genre}`;
+
+        const description = document.createElement('p');
+        description.textContent = `Description: ${show.details.description || 'No description available'}`;
+
+        detailsContainer.appendChild(genre);
+        detailsContainer.appendChild(description);
+
+        showElement.appendChild(detailsContainer);
+    });
+
+    // Remove event listener when mouse leaves image
+    img.addEventListener('mouseleave', () => {
+        const detailsContainer = showElement.querySelector('.show-details');
+        if (detailsContainer) {
+            detailsContainer.remove();
+        }
+    });
+
     currentIndex++;
     if (currentIndex >= suggestions.shows.length) {
         currentIndex = 0; // Reset index if we reached the end of the shows
     }
 }
+
 
 function removeShow(showElement) {
     showElement.remove();
