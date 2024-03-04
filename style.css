@@ -1,3 +1,4 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
@@ -98,4 +99,29 @@ body {
 
 .rating-button:hover {
   transform: scale(1.1);
+  
+.unselected {
+    background-color: gray;
+    color: black;
+
+}
+
+.selected {
+    background-color: blue;
+    color: white;
+}
+
+.movie {
+    border-color: black;
+    border-style: solid;
+    display: none;
+}
+
+
+#submit {
+    display: none;
+}
+
+#backwards {
+    display: none;
 }
