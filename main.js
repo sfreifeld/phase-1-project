@@ -1,80 +1,4 @@
-//variable that will hold the array of show objects, which we will show
-const suggestions = {}
-suggestions.shows = []
-
-
-let currentIndex = 0; // Track the current index of the displayed shows
-const numInitialShows = 3; // Number of shows to display initially
-
-function displayInitialShows() {
-    const showContainer = document.getElementById('suggestion-container');
-    showContainer.innerHTML = '';
-
-    const heading= document.createElement('h2');
-    heading.textContent = "Here are your suggestions";
-    showContainer.append(heading);
-
-    for (let i = 0; i < numInitialShows; i++) {
-        displayNextShow(showContainer);
-    }
-}
-
-function displayNextShow(showContainer) {
-    const show = suggestions.shows[currentIndex];
-    const showElement = document.createElement('div');
-    showElement.classList = 'show';
-
-    const name = document.createElement('h3');
-    name.textContent = show.name;
-    name.className = "show-name";
-
-    const img = document.createElement('img');
-    img.src = show.image;
-    img.className = "show-image";
-
-    // Append show element to row
-    showElement.appendChild(name);
-    showElement.appendChild(img);
-    showContainer.appendChild(showElement);
-
-    // Add event listener to thumbs down image
-    const dislike = document.createElement('img');
-    dislike.src = 'dislike_11823958.png';
-    dislike.className = 'rating-button';
-    dislike.addEventListener('click', () => {
-        removeShow(showElement);
-        displayNextShow(showContainer);
-    });
-
-    const ratingContainer = document.createElement('div'); // Create a container for rating buttons
-    ratingContainer.className = 'rating-container';
-    ratingContainer.appendChild(dislike); // Append dislike button to container
-
-    const like = document.createElement('img');
-    like.src = 'like_11823953.png';
-    like.className = 'rating-button';
-    ratingContainer.appendChild(like); // Append like button to container
-
-    showElement.appendChild(ratingContainer); // Insert rating container after show image
-
-    currentIndex++;
-    if (currentIndex >= suggestions.shows.length) {
-        currentIndex = 0; // Reset index if we reached the end of the shows
-    }
-}
-
-function removeShow(showElement) {
-    showElement.remove();
-}
-
-function rateShow() {
-    const shows = document.querySelectorAll('.show');
-
-    shows.forEach(show => {
-        const showImg = show.querySelector('.show-image');
-    });
-}
-
+// QUESTION FUNCS
 
 // object that holds the questions and answers
 const questionObject = [
@@ -225,15 +149,7 @@ function questionTraverse(direction) {
     forwards.style.display = questionCounter === questionObject.length - 1 ? 'none' : 'block'
     backwards.style.display = questionCounter === 0 ? 'none' : 'flex'
     submitButton.style.display = questionCounter === questionObject.length - 1 ? 'block' : 'none'
-
-    
-    
-
-
 }
-
-
-
 
 forwards.addEventListener('click', ()=> {
     questionTraverse("forwards")
@@ -324,4 +240,109 @@ function findShows(matchingShows = [], attempts = 0) {
         }).catch(error => {
             console.error("Failed to fetch shows:", error);
         })
+}
+
+// SUGGESTION FUNCS  
+const suggestions = {}
+suggestions.shows = []
+
+
+let currentIndex = 0; // Track the current index of the displayed shows
+const numInitialShows = 3; // Number of shows to display initially
+
+function displayInitialShows() {
+    const quizContainer = document.getElementById('questions-container');
+    quizContainer.innerHTML = '';
+    const showContainer = document.getElementById('suggestions-container');
+    showContainer.innerHTML = '';
+
+    const heading= document.createElement('h2');
+    heading.textContent = "Here are your suggestions:";
+    quizContainer.append(heading);
+
+    for (let i = 0; i < numInitialShows; i++) {
+        displayNextShow(showContainer);
+    }
+}
+
+function displayNextShow(showContainer) {
+    const show = suggestions.shows[currentIndex];
+    const showElement = document.createElement('div');
+    showElement.classList = 'show';
+
+    const name = document.createElement('h3');
+    name.textContent = show.name;
+    name.className = "show-name";
+
+    const img = document.createElement('img');
+    img.src = show.image;
+    img.className = "show-image";
+
+    // Append show element to row
+    showElement.appendChild(name);
+    showElement.appendChild(img);
+    showContainer.appendChild(showElement);
+
+    // Add event listener to thumbs down image
+    const dislike = document.createElement('img');
+    dislike.src = 'dislike_11823958.png';
+    dislike.className = 'rating-button';
+    dislike.addEventListener('click', () => {
+        removeShow(showElement);
+        displayNextShow(showContainer);
+    });
+
+    const ratingContainer = document.createElement('div'); // Create a container for rating buttons
+    ratingContainer.className = 'rating-container';
+    ratingContainer.appendChild(dislike); // Append dislike button to container
+
+    const like = document.createElement('img');
+    like.src = 'like_11823953.png';
+    like.className = 'rating-button';
+    ratingContainer.appendChild(like); // Append like button to container
+
+    showElement.appendChild(ratingContainer); // Insert rating container after show image
+
+    // Add event listener to show container for hover
+    img.addEventListener('mouseover', () => {
+        const detailsContainer = document.createElement('div');
+        detailsContainer.className = 'show-details';
+
+        const genre = document.createElement('p');
+        genre.textContent = `Genre: ${show.details.genre}`;
+
+        const description = document.createElement('p');
+        description.textContent = `Description: ${show.details.description || 'No description available'}`;
+
+        detailsContainer.appendChild(genre);
+        detailsContainer.appendChild(description);
+
+        showElement.appendChild(detailsContainer);
+    });
+
+    // Remove event listener when mouse leaves image
+    img.addEventListener('mouseleave', () => {
+        const detailsContainer = showElement.querySelector('.show-details');
+        if (detailsContainer) {
+            detailsContainer.remove();
+        }
+    });
+
+    currentIndex++;
+    if (currentIndex >= suggestions.shows.length) {
+        currentIndex = 0; // Reset index if we reached the end of the shows
+    }
+}
+
+
+function removeShow(showElement) {
+    showElement.remove();
+}
+
+function rateShow() {
+    const shows = document.querySelectorAll('.show');
+
+    shows.forEach(show => {
+        const showImg = show.querySelector('.show-image');
+    });
 }
