@@ -1,4 +1,4 @@
-// QUESTION FUNCS
+// GLOBAL VARIABLES FOR QUESTIONS
 
 // object that holds the questions and answers
 const questionObject = [
@@ -25,7 +25,32 @@ const questionObject = [
         answerAction: 'Racecar Driver',
         answerDrama: 'Lawyer',
         answerFamily: 'Teacher'
+    },
+    {
+        question: 'If you could teleport anywhere, where would you go?',
+        answerComedy: 'Comedy Club',
+        answerRomance: 'Paris',
+        answerAction: 'Amusement Park',
+        answerDrama: 'Coffee Shop',
+        answerFamily: 'Park'
+    },
+    {
+        question: 'What type of protagonist do you typically root for?',
+        answerComedy: 'The quirky underdog',
+        answerRomance: 'The hopeless romantiic',
+        answerAction: 'The fearless hero',
+        answerDrama: 'The clever detective',
+        answerFamily: 'The determined father'
+    },
+    {
+        question: 'If you were a fruit, what type would you be?',
+        answerComedy: 'Banana',
+        answerRomance: 'Strawberry',
+        answerAction: 'The fearless hero',
+        answerDrama: 'The clever detective',
+        answerFamily: 'The determined father'
     }
+
 ]
 
 
@@ -43,10 +68,22 @@ let userGenre = ''
 //variable that tracks the last selected button for each question, so that a user can only get one point per question
 const lastSelectedGenres = {}
 
-// logic that shows which answer is selected
+// variables for answer button
 const buttons = document.querySelectorAll('.answer-button')
 let selectedButton = ''
 
+// variables for traversing buttons
+const forwards = document.querySelector('#forwards')
+const backwards = document.querySelector('#backwards')
+const question = document.querySelector('#question')
+const form = document.querySelector('#question-form')
+const submitButton = document.querySelector('#question-form')
+
+// variable to keep track of what question the user is on
+let questionCounter = 0
+
+
+// logic so that when a button is clicked, it's styling changed
 buttons.forEach(button => {
     button.addEventListener('click',()=> {
         if (selectedButton) {
@@ -100,6 +137,7 @@ buttons.forEach(button => {
             console.log("action: " + action)
             console.log("drama: " + drama)
             console.log("family: " + family)
+            
             lastSelectedGenres[questionCounter] = button.id;
             }
     })
@@ -108,61 +146,70 @@ buttons.forEach(button => {
 
 
 
-// logic that causes forwards and backwards button to show the correct question and answers
-const forwards = document.querySelector('#forwards')
-const backwards = document.querySelector('#backwards')
-const question = document.querySelector('#question')
 
-// tracks what question we are currently on
-let questionCounter = 0
+// QUESTION FUNCS
 
-// either adds one or subtracts one from questionCounter
+
+// handles question movement by combining the functions that handles moving forwards or backwards, displaying the correct questions and answer, and 
+// displaying the direction buttons at the correct times
 function questionTraverse(direction) {
+    forwardsOrBackwards(direction)
+    showQuestionAndAnswers()
+    showCorrectButtons()
+}
+
+//shows traverseing buttons only when they can be used (ie doesn't show back button on first question)
+function showCorrectButtons() {
+    forwards.style.display = questionCounter === questionObject.length - 1 ? 'none' : 'block'
+    backwards.style.display = questionCounter === 0 ? 'none' : 'flex'
+    const submit = document.querySelector('#submit')
+    submit.style.display = questionCounter === questionObject.length - 1 ? 'block' : 'none'
+}
+
+//keeps track if next or previous question depending on what button you press.  Does not DISPLAY question and answers.
+function forwardsOrBackwards(direction) {
     buttons.forEach(button=> {
         button.className = 'unselected'
     })
-
     if (direction === "forwards") {
         questionCounter++
     }
     else if (direction === "backwards") {
         questionCounter--
     }
-    questionCounter 
-    question.textContent = questionObject[questionCounter].question
-    const comedyButton = document.querySelector('#comedy')
-    comedyButton.textContent = questionObject[questionCounter].answerComedy
-
-    const romanceButton = document.querySelector('#romance')
-    romanceButton.textContent = questionObject[questionCounter].answerRomance
-
-    const actionButton = document.querySelector('#action')
-    actionButton.textContent = questionObject[questionCounter].answerAction
-
-    const dramaButton = document.querySelector('#drama')
-    dramaButton.textContent = questionObject[questionCounter].answerDrama
-
-    const familyButton = document.querySelector('#family')
-    familyButton.textContent = questionObject[questionCounter].answerFamily
-
-    //logic that only shows submit button on the last question
-    forwards.style.display = questionCounter === questionObject.length - 1 ? 'none' : 'block'
-    backwards.style.display = questionCounter === 0 ? 'none' : 'flex'
-    submitButton.style.display = questionCounter === questionObject.length - 1 ? 'block' : 'none'
 }
 
-forwards.addEventListener('click', ()=> {
+// shows questions and answers based on quuestionCounter
+function showQuestionAndAnswers() {
+    question.textContent = questionObject[questionCounter].question
+
+    const comedyButton = document.querySelector('#comedy')
+    comedyButton.textContent = questionObject[questionCounter].answerComedy
+    const romanceButton = document.querySelector('#romance')
+    romanceButton.textContent = questionObject[questionCounter].answerRomance
+    const actionButton = document.querySelector('#action')
+    actionButton.textContent = questionObject[questionCounter].answerAction
+    const dramaButton = document.querySelector('#drama')
+    dramaButton.textContent = questionObject[questionCounter].answerDrama
+    const familyButton = document.querySelector('#family')
+    familyButton.textContent = questionObject[questionCounter].answerFamily
+}
+
+
+// goes to next question
+forwards.addEventListener('click', (event) => {
+    event.preventDefault()
     questionTraverse("forwards")
-
-
+    form.style.display = 'block'
 })
 
-backwards.addEventListener('click', ()=> {
+// goes to previous question
+backwards.addEventListener('click', (event) => {
+    event.preventDefault()
     questionTraverse("backwards")
-
 })
 
-
+// determines what genre user should receive.  Looks at points for each genre and chooses one with the most.
 function determineUserGenre() {
     const genres = [
         { name: 'Comedy', points: comedy },
@@ -171,7 +218,6 @@ function determineUserGenre() {
         { name: 'Drama', points: drama },
         { name: 'Family', points: family }
     ]
-
     const maxPoints = Math.max(...genres.map(genre => genre.points))
 
     const topGenres = genres.filter(genre => genre.points === maxPoints)
@@ -180,21 +226,17 @@ function determineUserGenre() {
         const randomIndex = Math.floor(Math.random() * topGenres.length)
         userGenre = topGenres[randomIndex].name
     } else {
-        // If there's no tie, just assign the top genre
         userGenre = topGenres[0].name
     }
 
 }
 
-const submitButton = document.querySelector('#submit')
-
  // Call the function to determine the user's preferred genre and then find shows of that genre
-submitButton.addEventListener('click', () => {
-    determineUserGenre();
-    console.log(userGenre);
+submitButton.addEventListener('submit', (event) => {
+    event.preventDefault()
+    determineUserGenre()
     findShows()
-});
-
+})
 
 
 // 300 pages of tv maze api
@@ -202,27 +244,16 @@ submitButton.addEventListener('click', () => {
 // Limit the number of attempts to prevent infinite loops
 function findShows(matchingShows = [], attempts = 0) {
     if (matchingShows.length >= 10 || attempts > 50) {
-        console.log(matchingShows);
-        console.log("show 1: " + matchingShows[0].name);
-        console.log("show 2: " + matchingShows[1].name);
-        console.log("show 3: " + matchingShows[2].name);
+        console.log(matchingShows)
+        console.log("show 1: " + matchingShows[0].name)
+        console.log("show 2: " + matchingShows[1].name)
+        console.log("show 3: " + matchingShows[2].name)
 
-        //for each show in matchingShows array, make object
-        matchingShows.forEach(show => {
-            suggestions.shows.push({
-                name: show.name,
-                image: show.image.original,
-                details: {
-                    genre: show.genre,
-                    description: show.summary
-                }
-        })
-    })
-
+        addShowsToSuggestions(matchingShows)
         const suggestionContainer = document.querySelector('#suggestion-container')
         displayInitialShows()
         suggestionContainer.style.display = 'flex'
-        return;
+        return
     }
 
     let randomPage = Math.floor(Math.random() * 300) + 1
@@ -242,13 +273,37 @@ function findShows(matchingShows = [], attempts = 0) {
         })
 }
 
-// SUGGESTION FUNCS  
+
+
+function addShowsToSuggestions(matchingShows) {
+    matchingShows.forEach(show => {
+        const showObject = {
+            name: show.name,
+            image: show.image ? show.image.original : 'https://t3.ftcdn.net/jpg/04/34/72/82/360_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg',
+            details: {
+                genre: show.genres,
+                description: show.summary
+            }
+        }
+        suggestions.shows.push(showObject)
+    })
+
+}
+
+
+
+
+
+// GLOBAL VARIABLES FOR SUGGESTIONS
 const suggestions = {}
 suggestions.shows = []
 
+// Track the current index of the displayed shows
+let currentIndex = 0
+ // Number of shows to display initially
+const numInitialShows = 3
 
-let currentIndex = 0; // Track the current index of the displayed shows
-const numInitialShows = 3; // Number of shows to display initially
+// SUGGESTION FUNCS  
 
 function displayInitialShows() {
     const quizContainer = document.getElementById('questions-container');
@@ -308,13 +363,13 @@ function displayNextShow(showContainer) {
         const detailsContainer = document.createElement('div');
         detailsContainer.className = 'show-details';
 
-        const genre = document.createElement('p');
-        genre.textContent = `Genre: ${show.details.genre}`;
+        const genres = document.createElement('p');
+        genres.textContent = `Genre: ${show.details.genre.join(', ')}`;
 
         const description = document.createElement('p');
-        description.textContent = `Description: ${show.details.description || 'No description available'}`;
+        description.innerHTML = `Description: ${show.details.description || 'No description available'}`;
 
-        detailsContainer.appendChild(genre);
+        detailsContainer.appendChild(genres);
         detailsContainer.appendChild(description);
 
         showElement.appendChild(detailsContainer);
