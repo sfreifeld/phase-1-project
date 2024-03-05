@@ -1,93 +1,8 @@
-const suggestions = {
-    "shows": [
-        {
-            "name": "Community",
-            "image": "https://m.media-amazon.com/images/S/pv-target-images/6845f803b2fe517cd2ddbdaa52150dde6920ff309530bee8d4e54bfd9e667c4b.jpg",
-            "details": {
-                "genre": "comedy",
-                "description": "A suspended lawyer is forced to enroll in a community college with an eccentric staff and student body."
-            }
-        },
-        {
-            "name": "Grey's Anatomy",
-            "image": "https://static.wikia.nocookie.net/greysanatomy/images/7/77/Season12Poster2.jpg/revision/latest?cb=20150918074736",
-            "details": {
-                "genre": "drama",
-                "description": "A drama centered on the personal and professional lives of five surgical interns and their supervisors."
-            }
-        },
-        {
-            "name": "Bridgerton",
-            "image": "https://resizing.flixster.com/Zdvk-xZ3cN7uIJGvqPcuAijAb1U=/ems.cHJkLWVtcy1hc3NldHMvdHZzZXJpZXMvOWQyNzdiMGEtZmZhYi00YmZjLTkxZDktNDFlMjFhNjZkZmYwLmpwZw==",
-            "details": {
-                "genre": "romance",
-                "description": "The eight close-knit siblings of the Bridgerton family look for love and happiness in London high society."
-            }
-        },
-        {
-            "name": "The Walking Dead",
-            "image": "https://assets-prd.ignimgs.com/2021/10/08/thewalkingdead-1633729801542.png",
-            "details": {
-                "genre": "action",
-                "description": "The eight close-knit siblings of the Bridgerton family look for love and happiness in London high society."
-            }
-        },
-        {
-            "name": "Peppa Pig",
-            "image": "https://m.media-amazon.com/images/M/MV5BNDUyODQ0NjAtYTZjMS00MzBjLWI1ZjYtMzBhYzgyYzdjMTE4XkEyXkFqcGdeQXVyMzU5OTE2NTI@._V1_.jpg",
-            "details": {
-                "genre": "family",
-                "description":"A little pig named Peppa and her little brother George have journeys everyday with their family and friends."
-            }
-        },
-                {
-            "name": "Parks and Recreation",
-            "image": "https://www.cleveland.com/resizer/opMMdXiOio0iPspiJDuvfXH5MAo=/1280x0/smart/cloudfront-us-east-1.images.arcpublishing.com/advancelocal/LGCO4GRDUBHW5O335IRSRFBS6I.jpg",
-            "details": {
-                "genre": "comedy",
-                "description": "The absurd antics of an Indiana town's public officials as they pursue sundry projects to make their city a better place."
-            }
-        },
-                        {
-            "name": "Downton Abbey",
-            "image": "https://m.media-amazon.com/images/M/MV5BY2U1NmIwYzgtNjFkOS00YWUxLTg0YTMtZmE5NTA3YjRmY2NlXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_FMjpg_UX1000_.jpg",
-            "details": {
-                "genre": "drama",
-                "description":"The absurd antics of an Indiana town's public officials as they pursue sundry projects to make their city a better place."
-            }
-        },
-                                {
-            "name": "Bluey",
-            "image": "https://m.media-amazon.com/images/M/MV5BMDBiNDI3YjQtNDdkNS00ZDliLTlmMmQtMDE4ZWM1ZGIyNjljXkEyXkFqcGdeQXVyNTE1NjY5Mg@@._V1_.jpg",
-            "details": {
-                "genre": "family",
-                "description": "The slice-of-life adventures of an Australian Blue Heeler Cattle Dog puppy as she has fun with her family and friends in everyday situations."
-            }
-        },
-                                        {
-            "name": "Ted Lasso",
-            "image": "https://m.media-amazon.com/images/M/MV5BMTdmZjBjZjQtY2JiNS00Y2ZlLTg2NzgtMjUzMGY2OTVmOWJiXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_FMjpg_UX1000_.jpg",
-            "details": {
-                "genre": "comedy",
-                "description":"American college football coach Ted Lasso heads to London to manage AFC Richmond, a struggling English Premier League soccer team."
-            }
-        },
-                                                {
-            "name": "The Flash",
-            "image": "https://static0.colliderimages.com/wordpress/wp-content/uploads/2023/04/the-flash-tv-poster.jpg",
-            "details": {
-                "genre": "action",
-                "description": "After being struck by lightning, Barry Allen wakes up from his coma to discover he's been given the power of super speed, becoming the Flash, and fighting crime in Central City."
-            }
-        }
-    ]
-}
 
+//variable that will hold the array of show objects, which we will show
+const suggestions = {}
+suggestions.shows = []
 
-document.addEventListener('DOMContentLoaded', () => {
-    displayInitialShows();
-    rateShow();
-});
 
 let currentIndex = 0; // Track the current index of the displayed shows
 const numInitialShows = 3; // Number of shows to display initially
@@ -337,7 +252,7 @@ function questionTraverse(direction) {
 
     //logic that only shows submit button on the last question
     forwards.style.display = questionCounter === questionObject.length - 1 ? 'none' : 'block'
-    backwards.style.display = questionCounter === 0 ? 'none' : 'block'
+    backwards.style.display = questionCounter === 0 ? 'none' : 'flex'
     submitButton.style.display = questionCounter === questionObject.length - 1 ? 'block' : 'none'
 
     
@@ -404,6 +319,22 @@ function findShows(matchingShows = [], attempts = 0) {
         console.log("show 1: " + matchingShows[0].name);
         console.log("show 2: " + matchingShows[1].name);
         console.log("show 3: " + matchingShows[2].name);
+
+        //for each show in matchingShows array, make object
+        matchingShows.forEach(show => {
+            suggestions.shows.push({
+                name: show.name,
+                image: show.image.original,
+                details: {
+                    genre: show.genre,
+                    description: show.summary
+                }
+        })
+    })
+
+        const suggestionContainer = document.querySelector('#suggestion-container')
+        displayInitialShows()
+        suggestionContainer.style.display = 'flex'
         return;
     }
 
