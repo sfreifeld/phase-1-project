@@ -15,39 +15,41 @@
     <script defer src="main.js"></script>
     <h1 id="title">Cine<span>mate</span></h1>
     <div id="questions-container">
-      <h3 id="question">Which one of these activities sounds the most fun?</h3>
-      <div id="button-container">
-        <div class="button-row">
-          <button id="comedy" class="answer-button unselected">
-            Hanging out with friends
-          </button>
-          <button id="romance" class="answer-button unselected">
-            A long walk on the beach
-          </button>
+      <form id="question-form">
+        <h3 id="question">Which one of these activities sounds the most fun?</h3>
+        <div id="button-container">
+          <div class="button-row">
+            <button id="comedy" class="answer-button unselected" type="button">
+              Hanging out with friends
+            </button>
+            <button id="romance" class="answer-button unselected" type="button">
+              A long walk on the beach
+            </button>
+          </div>
+          <div class="button-row">
+            <button id="action" class="answer-button unselected" type="button">
+              Skydiving
+            </button>
+            <button id="drama" class="answer-button unselected" type="button">
+              Reading a book
+            </button>
+          </div>
+          <div class="button-row">
+            <button id="family" class="answer-button unselected" type="button">
+              Playing a board game
+            </button>
+          </div>
         </div>
-        <div class="button-row">
-          <button id="action" class="answer-button unselected">
-            Skydiving
+        <div id="button-group">
+          <button id="backwards" type="button">
+            <i class="fa fa-backward"></i>&nbsp;&nbsp;Back
           </button>
-          <button id="drama" class="answer-button unselected">
-            Reading a book
+          <button id="forwards" type="button">
+            Next&nbsp;&nbsp;<i class="fa fa-forward"></i>
           </button>
+          <input type="submit" id="submit" value="Submit">
         </div>
-        <div class="button-row">
-          <button id="family" class="answer-button unselected">
-            Playing a board game
-          </button>
-        </div>
-      </div>
-      <div id="button-group">
-        <button id="backwards">
-          <i class="fa fa-backward"></i>&nbsp;&nbsp;Back
-        </button>
-        <button id="forwards">
-          Next&nbsp;&nbsp;<i class="fa fa-forward"></i>
-        </button>
-        <button id="submit">Submit</button>
-      </div>
+      </form>
     </div>
 
     <div id="suggestions-container">
