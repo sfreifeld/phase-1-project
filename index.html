@@ -6,17 +6,20 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="description" content="" />
     <link rel="stylesheet" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <script
+      src="https://kit.fontawesome.com/f1010aab05.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <script defer src="main.js"></script>
+
     <h1 id="title">Cine<span>mate</span></h1>
     <div id="questions-container">
       <form id="question-form">
-        <h3 id="question">Which one of these activities sounds the most fun?</h3>
+        <h3 id="question">
+          Which one of these activities sounds the most fun?
+        </h3>
         <div id="button-container">
           <div class="button-row">
             <button id="comedy" class="answer-button unselected" type="button">
@@ -47,12 +50,12 @@
           <button id="forwards" type="button">
             Next&nbsp;&nbsp;<i class="fa fa-forward"></i>
           </button>
-          <input type="submit" id="submit" value="Submit">
+          <input type="submit" id="submit" value="Submit" />
         </div>
       </form>
     </div>
 
-    <div id="suggestions-container">
+    <div id="suggestions-container" style="display: none">
       <div class="show" id="show1">show 1</div>
       <div class="show" id="show2">show 2</div>
       <div class="show" id="show3">show 3</div>
