@@ -149,7 +149,6 @@ buttons.forEach(button => {
 
 // QUESTION FUNCS
 
-
 // handles question movement by combining the functions that handles moving forwards or backwards, displaying the correct questions and answer, and 
 // displaying the direction buttons at the correct times
 function questionTraverse(direction) {
@@ -291,9 +290,6 @@ function addShowsToSuggestions(matchingShows) {
 }
 
 
-
-
-
 // GLOBAL VARIABLES FOR SUGGESTIONS
 const suggestions = {}
 suggestions.shows = []
@@ -305,73 +301,83 @@ const numInitialShows = 3
 
 // SUGGESTION FUNCS  
 
+// Function to display the initial set of TV shows
 function displayInitialShows() {
     const quizContainer = document.getElementById('questions-container');
+    // Clear the container for questions
     quizContainer.innerHTML = '';
     const showContainer = document.getElementById('suggestions-container');
+    // Clear the container for questions
     showContainer.innerHTML = '';
+    showContainer.style.display = 'flex';
 
+    // Create a heading to indicate the start of suggestions
     const heading= document.createElement('h2');
     heading.textContent = "Here are your suggestions:";
     quizContainer.append(heading);
 
+    // starts a loop to display first three shows
     for (let i = 0; i < numInitialShows; i++) {
         displayNextShow(showContainer);
     }
 }
 
+// Function to display the next TV show
 function displayNextShow(showContainer) {
+    // Get the next show from the suggestions
     const show = suggestions.shows[currentIndex];
+    // Create a new div to hold the next show
     const showElement = document.createElement('div');
     showElement.classList = 'show';
 
+    // Creates name and img for next show
     const name = document.createElement('h3');
     name.textContent = show.name;
     name.className = "show-name";
-
     const img = document.createElement('img');
     img.src = show.image;
     img.className = "show-image";
 
-    // Append show element to row
+    // Append name and img to next show
     showElement.appendChild(name);
     showElement.appendChild(img);
     showContainer.appendChild(showElement);
 
     // Add event listener to thumbs down image
-    const dislike = document.createElement('img');
-    dislike.src = 'dislike_11823958.png';
-    dislike.className = 'rating-button';
+    const dislike = document.createElement('i');
+    dislike.className = 'fa-solid fa-x rating-button';
+    ;
     dislike.addEventListener('click', () => {
+        // Remove the current show 
         removeShow(showElement);
+        // Display the next show 
         displayNextShow(showContainer);
     });
 
-    const ratingContainer = document.createElement('div'); // Create a container for rating buttons
+    // Create a container for rating buttons
+    const ratingContainer = document.createElement('div'); 
     ratingContainer.className = 'rating-container';
-    ratingContainer.appendChild(dislike); // Append dislike button to container
+    // Append dislike button to container
+    ratingContainer.appendChild(dislike); 
 
-    const like = document.createElement('img');
-    like.src = 'like_11823953.png';
-    like.className = 'rating-button';
-    ratingContainer.appendChild(like); // Append like button to container
-
-    showElement.appendChild(ratingContainer); // Insert rating container after show image
+    // Insert rating container after show image
+    showElement.appendChild(ratingContainer); 
 
     // Add event listener to show container for hover
     img.addEventListener('mouseover', () => {
         const detailsContainer = document.createElement('div');
         detailsContainer.className = 'show-details';
 
+         // Setting show details dynamically
         const genres = document.createElement('p');
         genres.textContent = `Genre: ${show.details.genre.join(', ')}`;
 
         const description = document.createElement('p');
         description.innerHTML = `Description: ${show.details.description || 'No description available'}`;
 
+        // Append genre and description to show details
         detailsContainer.appendChild(genres);
         detailsContainer.appendChild(description);
-
         showElement.appendChild(detailsContainer);
     });
 
@@ -383,21 +389,14 @@ function displayNextShow(showContainer) {
         }
     });
 
-    currentIndex++;
+    currentIndex++; // Increment the current index 
     if (currentIndex >= suggestions.shows.length) {
         currentIndex = 0; // Reset index if we reached the end of the shows
     }
 }
 
-
+// Function to remove a show element
 function removeShow(showElement) {
     showElement.remove();
 }
 
-function rateShow() {
-    const shows = document.querySelectorAll('.show');
-
-    shows.forEach(show => {
-        const showImg = show.querySelector('.show-image');
-    });
-}
