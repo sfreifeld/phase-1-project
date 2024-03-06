@@ -314,7 +314,8 @@ function displayInitialShows() {
     // Create a heading to indicate the start of suggestions
     const heading= document.createElement('h2');
     heading.textContent = "Here are your suggestions:";
-    quizContainer.append(heading);
+    const title = document.querySelector('#title');
+    title.append(heading);
 
     // starts a loop to display first three shows
     for (let i = 0; i < numInitialShows; i++) {
@@ -338,37 +339,34 @@ function displayNextShow(showContainer) {
     img.src = show.image;
     img.className = "show-image";
 
-    // Append name and img to next show
-    showElement.appendChild(name);
-    showElement.appendChild(img);
+    // Create container to hold show's name and img
+    const showInfoContainer = document.createElement('div');
+    showInfoContainer.className = 'show-info'
+    showInfoContainer.appendChild(name);
+    showInfoContainer.appendChild(img);
+    showElement.appendChild(showInfoContainer);
     showContainer.appendChild(showElement);
 
     // Add event listener to thumbs down image
     const dislike = document.createElement('i');
     dislike.className = 'fa-solid fa-x rating-button';
     ;
+
+     name.prepend(dislike)
     dislike.addEventListener('click', () => {
         // Remove the current show 
         removeShow(showElement);
         // Display the next show 
         displayNextShow(showContainer);
     });
-
-    // Create a container for rating buttons
-    const ratingContainer = document.createElement('div'); 
-    ratingContainer.className = 'rating-container';
-    // Append dislike button to container
-    ratingContainer.appendChild(dislike); 
-
-    // Insert rating container after show image
-    showElement.appendChild(ratingContainer); 
+   
 
     // Add event listener to show container for hover
     img.addEventListener('mouseover', () => {
         const detailsContainer = document.createElement('div');
         detailsContainer.className = 'show-details';
 
-         // Setting show details dynamically
+        // Setting show details dynamically
         const genres = document.createElement('p');
         genres.textContent = `Genre: ${show.details.genre.join(', ')}`;
 
@@ -378,8 +376,15 @@ function displayNextShow(showContainer) {
         // Append genre and description to show details
         detailsContainer.appendChild(genres);
         detailsContainer.appendChild(description);
-        showElement.appendChild(detailsContainer);
-    });
+        showInfoContainer.appendChild(detailsContainer);
+
+        // Insert dislike button before name
+       
+  
+
+        
+    
+})
 
     // Remove event listener when mouse leaves image
     img.addEventListener('mouseleave', () => {
@@ -399,4 +404,5 @@ function displayNextShow(showContainer) {
 function removeShow(showElement) {
     showElement.remove();
 }
+
 
