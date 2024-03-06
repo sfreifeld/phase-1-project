@@ -48,7 +48,7 @@ const questionObject = [
         answerRomance: 'Strawberry',
         answerAction: 'Passionfruit',
         answerDrama: 'Fig',
-        answerFamily: 'The determined father'
+        answerFamily: 'Apple'
     }
 
 ]
