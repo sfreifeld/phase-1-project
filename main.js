@@ -46,8 +46,8 @@ const questionObject = [
         question: 'If you were a fruit, what type would you be?',
         answerComedy: 'Banana',
         answerRomance: 'Strawberry',
-        answerAction: 'The fearless hero',
-        answerDrama: 'The clever detective',
+        answerAction: 'Passionfruit',
+        answerDrama: 'Fig',
         answerFamily: 'The determined father'
     }
 
