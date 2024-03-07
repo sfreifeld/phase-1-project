@@ -233,8 +233,12 @@ function determineUserGenre() {
  // Call the function to determine the user's preferred genre and then find shows of that genre
 submitButton.addEventListener('submit', (event) => {
     event.preventDefault()
-    determineUserGenre()
-    findShows()
+       showLoadingPage();
+    setTimeout(() => {
+        determineUserGenre();
+        findShows();
+        setTimeout(hideLoadingPage, 3000); // Hide loading page after 3 seconds
+    }, 500);
 })
 
 
@@ -250,8 +254,9 @@ function findShows(matchingShows = [], attempts = 0) {
 
         addShowsToSuggestions(matchingShows)
         const suggestionContainer = document.querySelector('#suggestion-container')
+        setTimeout(hideLoadingPage, 5000);
         displayInitialShows()
-        suggestionContainer.style.display = 'flex'
+        
         return
     }
 
@@ -267,6 +272,7 @@ function findShows(matchingShows = [], attempts = 0) {
 
             // Recursively call findShows until the condition is met
             findShows(updatedMatchingShows, attempts + 1);
+           
         }).catch(error => {
             console.error("Failed to fetch shows:", error);
         })
@@ -288,6 +294,35 @@ function addShowsToSuggestions(matchingShows) {
     })
 
 }
+
+// LOADING PAGE FUNCS
+// Function to show the loading page
+function showLoadingPage() {
+    document.getElementById('suggestions-container').style.display = 'hidden';
+
+    const loadingPage = document.getElementById('loading-page');
+    loadingPage.style.display = 'flex';
+    loadingPage.style.position = 'fixed';
+    loadingPage.style.top = 0;
+    loadingPage.style.left = 0;
+    loadingPage.style.width = '100%';
+    loadingPage.style.height = '100%';
+    loadingPage.style.backgroundColor = '#da6638'; // Semi-transparent black background
+    loadingPage.style.zIndex = 9999; 
+    
+    
+
+    
+}
+
+function hideLoadingPage() {
+    const loadingPage = document.getElementById('loading-page');
+    loadingPage.style.display = 'none';
+    // Show other elements
+    document.getElementById('suggestions-container').style.display = 'flex';
+    document.querySelector('h2').style.display = 'block';
+}
+
 
 
 // GLOBAL VARIABLES FOR SUGGESTIONS
@@ -378,12 +413,7 @@ function displayNextShow(showContainer) {
         detailsContainer.appendChild(description);
         showInfoContainer.appendChild(detailsContainer);
 
-        // Insert dislike button before name
-       
-  
-
-        
-    
+        // Insert dislike button before name  
 })
 
     // Remove event listener when mouse leaves image
@@ -404,5 +434,4 @@ function displayNextShow(showContainer) {
 function removeShow(showElement) {
     showElement.remove();
 }
-
 

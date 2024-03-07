@@ -46,14 +46,16 @@ h2 {
   font-size: 1rem;
   color: whitesmoke;
   letter-spacing: 2px;
-  margin-top: 1%;
+  position: relative;
+  top: 25px;
+  display: none;
 }
 
 #suggestions-container {
-  display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin: 1rem;
+  margin-top: none;
 }
 
 .row {
@@ -231,4 +233,53 @@ footer {
 
 footer a {
   color: #da6638;
+}
+
+/* loading page styles */
+#loading-page {
+  display: hidden;
+  justify-content: center;
+  align-items: center;
+  background-color: #3a3f55;
+}
+
+.loading-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border: 2px solid #da6638;
+  border-radius: 50%;
+  animation: waver 2s infinite alternate;
+  transition: all 0.5s ease-in-out;
+}
+
+.loading-text {
+  color: #da6638;
+  font-weight: 100;
+  font-size: 16px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  animation: expand 1s infinite alternate;
+  transition: transform 0.5s ease-in-out;
+}
+
+@keyframes expand {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+@keyframes waver {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
